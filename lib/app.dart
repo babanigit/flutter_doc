@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_doc/pages/drawer.dart';
 
 class App extends StatefulWidget {
-  const App({Key? key}) : super(key: key);
+  final VoidCallback toggleTheme; // Function to toggle theme
+
+  const App({Key? key, required this.toggleTheme}) : super(key: key);
 
   @override
   State<App> createState() => _AppState();
@@ -11,39 +14,38 @@ class _AppState extends State<App> {
   int _currentIndex = 0; // Track the selected page index
 
   // List of pages to display
-  final List<Widget> _pages = [
-    const HomePage(),
-    const SearchPage(),
-    const ProfilePage(),
-    const SettingsPage(),
-  ];
+  late final List<Widget> _pages;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize pages with the toggle function for SettingsPage
+    _pages = [
+      const HomePage(),
+      const SearchPage(),
+      const ProfilePage(),
+      SettingsPage(toggleTheme: widget.toggleTheme), // Pass toggleTheme here
+      const AppDrawer(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      appBar: AppBar(
-        title: const Text('Bottom Navigation Example'),
-        backgroundColor: Colors.green,
-      ),
-
       body: IndexedStack(
         index: _currentIndex, // Show the current page
-        children: _pages,     // Pages to switch between
+        children: _pages, // Pages to switch between
       ),
 
       bottomNavigationBar: BottomNavigationBar(
-
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
         fixedColor: Colors.green,
-
         onTap: (int index) {
           setState(() {
             _currentIndex = index; // Update the selected page index
           });
         },
-
         items: const [
           BottomNavigationBarItem(
             label: "Home",
@@ -61,8 +63,11 @@ class _AppState extends State<App> {
             label: "Settings",
             icon: Icon(Icons.settings),
           ),
+          BottomNavigationBarItem(
+            label: "Drawer",
+            icon: Icon(Icons.menu),
+          ),
         ],
-        
       ),
     );
   }
@@ -112,13 +117,48 @@ class ProfilePage extends StatelessWidget {
 }
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  final VoidCallback toggleTheme;
+
+  const SettingsPage({Key? key, required this.toggleTheme}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            'Settings Page',
+            style: TextStyle(fontSize: 24),
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Light Mode'),
+              Switch(
+                value: Theme.of(context).brightness == Brightness.dark,
+                onChanged: (value) {
+                  toggleTheme(); // Call the toggleTheme function
+                },
+              ),
+              const Text('Dark Mode'),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AppDrawer extends StatelessWidget {
+  const AppDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const Center(
       child: Text(
-        'Settings Page',
+        'Drawer Page',
         style: TextStyle(fontSize: 24),
       ),
     );
