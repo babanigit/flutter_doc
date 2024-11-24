@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_doc/pages/drawer.dart';
+import 'package:flutter_doc/pages/future_builder.dart';
+import 'package:flutter_doc/pages/setting.dart';
 
 class App extends StatefulWidget {
   final VoidCallback toggleTheme; // Function to toggle theme
@@ -24,8 +26,9 @@ class _AppState extends State<App> {
       const HomePage(),
       const SearchPage(),
       const ProfilePage(),
-      SettingsPage(toggleTheme: widget.toggleTheme), // Pass toggleTheme here
+      Setting(toggleTheme: widget.toggleTheme), // Pass toggleTheme here
       const AppDrawer(),
+      const MyFutureWidget()
     ];
   }
 
@@ -36,7 +39,6 @@ class _AppState extends State<App> {
         index: _currentIndex, // Show the current page
         children: _pages, // Pages to switch between
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
@@ -65,6 +67,10 @@ class _AppState extends State<App> {
           ),
           BottomNavigationBarItem(
             label: "Drawer",
+            icon: Icon(Icons.menu),
+          ),
+          BottomNavigationBarItem(
+            label: "futureWidget",
             icon: Icon(Icons.menu),
           ),
         ],
@@ -110,55 +116,6 @@ class ProfilePage extends StatelessWidget {
     return const Center(
       child: Text(
         'Profile Page',
-        style: TextStyle(fontSize: 24),
-      ),
-    );
-  }
-}
-
-class SettingsPage extends StatelessWidget {
-  final VoidCallback toggleTheme;
-
-  const SettingsPage({Key? key, required this.toggleTheme}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            'Settings Page',
-            style: TextStyle(fontSize: 24),
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Light Mode'),
-              Switch(
-                value: Theme.of(context).brightness == Brightness.dark,
-                onChanged: (value) {
-                  toggleTheme(); // Call the toggleTheme function
-                },
-              ),
-              const Text('Dark Mode'),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class AppDrawer extends StatelessWidget {
-  const AppDrawer({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Drawer Page',
         style: TextStyle(fontSize: 24),
       ),
     );
