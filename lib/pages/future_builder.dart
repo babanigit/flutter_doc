@@ -1,14 +1,21 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class MyFutureWidget extends StatelessWidget {
   const MyFutureWidget({Key? key}) : super(key: key);
 
   // Simulated future function
   Future<String> fetchData() async {
-    await Future.delayed(Duration(seconds: 2)); // Simulate a delay
-    return "Data fetched successfully!";
-    // Uncomment below to simulate an error
-    // throw Exception("Failed to fetch data!");
+    final response = await http
+        .get(Uri.parse('https://jsonplaceholder.typicode.com/posts/1'));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return data['title'];
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 
   @override

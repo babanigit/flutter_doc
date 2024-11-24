@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_doc/pages/animated_widgets_example_app.dart';
+import 'package:flutter_doc/pages/async_await_example.dart';
 import 'package:flutter_doc/pages/drawer.dart';
 import 'package:flutter_doc/pages/future_builder.dart';
+import 'package:flutter_doc/pages/my_routing.dart';
 import 'package:flutter_doc/pages/setting.dart';
 
 class App extends StatefulWidget {
@@ -28,7 +31,10 @@ class _AppState extends State<App> {
       const ProfilePage(),
       Setting(toggleTheme: widget.toggleTheme), // Pass toggleTheme here
       const AppDrawer(),
-      const MyFutureWidget()
+      const MyFutureWidget(),
+      const AsyncAwaitExample(),
+      const MyRouting(),
+      const AnimatedWidgetsExampleApp()
     ];
   }
 
@@ -71,7 +77,19 @@ class _AppState extends State<App> {
           ),
           BottomNavigationBarItem(
             label: "futureWidget",
-            icon: Icon(Icons.menu),
+            icon: Icon(Icons.error),
+          ),
+          BottomNavigationBarItem(
+            label: "awaitAsync",
+            icon: Icon(Icons.api),
+          ),
+          BottomNavigationBarItem(
+            label: "routing",
+            icon: Icon(Icons.route),
+          ),
+             BottomNavigationBarItem(
+            label: "anime",
+            icon: Icon(Icons.animation),
           ),
         ],
       ),
